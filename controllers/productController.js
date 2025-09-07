@@ -244,7 +244,8 @@ export const productListController = async (req, res) => {
       .select("-photo")
       .skip((page - 1) * perPage)
       .limit(perPage)
-      .sort({ createdAt: -1 });
+      .sort({ createdAt: -1 })
+      .populate("category");
     res.status(200).send({
       success: true,
       products,
