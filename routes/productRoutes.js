@@ -6,6 +6,7 @@ import {
   deleteProductController,
   getProductController,
   getSingleProductController,
+  orderCODController,
   productCategoryController,
   productCountController,
   productFiltersController,
@@ -73,5 +74,9 @@ router.get("/braintree/token", braintreeTokenController);
 
 //payments
 router.post("/braintree/payment", requireSignIn, brainTreePaymentController);
+
+// ----------------- ORDER (COD) ----------------- //
+// Place order with Cash on Delivery
+router.post("/order-cod", requireSignIn, orderCODController);
 
 export default router;

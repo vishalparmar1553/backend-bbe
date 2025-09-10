@@ -378,3 +378,44 @@ export const brainTreePaymentController = async (req, res) => {
   //   console.log(error);
   // }
 };
+
+// COD Order Controller
+export const orderCODController = async (req, res) => {
+  try {
+    const { cart } = req.body;
+    if (!cart || cart.length === 0) {
+      return res.status(400).json({ message: "Cart is empty" });
+    }
+
+    // calculate total
+    let total = 0;
+    cart.forEach((i) => {
+      total += i.price;
+    });
+
+    const order = new orderModel({
+      products: cart,
+      payment: {
+        method: "COD",
+        status: "Pending",
+        amount: total,
+      },
+      buyer: req.user._id,
+    });
+
+    await order.save();
+
+    res.status(201).json({
+      success: true,
+      message: "Order placed successfully (COD)",
+      order,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: "Error placing COD order",
+      error,
+    });
+  }
+};
